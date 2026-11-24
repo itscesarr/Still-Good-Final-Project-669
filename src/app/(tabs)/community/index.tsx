@@ -2,9 +2,9 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useBoard } from '../../community/BoardProvider';
-import { viewer, type Kind, type Post } from '../../community/data';
-import { Action, color, s, serif } from '../../community/ui';
+import { useBoard } from '../../../community/BoardProvider';
+import { viewer, type Kind, type Post } from '../../../community/data';
+import { Action, color, s, serif } from '../../../community/ui';
 
 function PostCard({ post }: { post: Post }) {
   const { board, setBoard } = useBoard();
@@ -40,12 +40,11 @@ function FeedList({ ingredient }: { ingredient?: string }) {
   const needle = query.trim().toLowerCase();
   const posts = board.posts.filter(post => (kind === 'All' || post.kind === kind)
     && (post.ingredients + ' ' + post.title).toLowerCase().includes(needle));
-  return <SafeAreaView style={s.page}>
+  return <SafeAreaView style={s.page} edges={['top', 'left', 'right']}>
     <FlatList keyboardShouldPersistTaps="handled" contentContainerStyle={s.column} data={posts} keyExtractor={post => post.id}
       ListHeaderComponent={<View>
         <View style={[s.row, s.divider, { justifyContent: 'space-between', paddingVertical: 9 }]}>
           <Text style={{ fontFamily: serif, fontSize: 24, fontStyle: 'italic', color: color.green }}>Still Good</Text>
-          <Action label="Messages" onPress={() => router.push('/community/inbox')} />
         </View>
         <View style={[s.row, { paddingTop: 22, paddingBottom: 16, justifyContent: 'space-between' }]}>
           <Text accessibilityRole="header" style={s.heading}>Community</Text>
